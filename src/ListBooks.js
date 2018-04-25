@@ -5,25 +5,44 @@ import * as BooksAPI from './utils/api/BooksAPI'
 
 class ListBooks extends Component {
   state = {
-    books: []
+    booksCurrentlyReading:[],
+    booksWantToRead:[],
+    booksRead:[]
+  }
+
+  filterBooks = (book, shelf) => {
+    return book.filter((b) => b.shelf === shelf)
+  }
+
+  updateShelf = (book, shelf) => {
+    BooksAPI.update(book, shelf).then((result) => {
+      this.componentDidMount()
+    })
   }
 
   componentDidMount(){
     BooksAPI.getAll().then((book) => {
-      this.setState({books:book})
+      this.setState({ 
+        booksCurrentlyReading : this.filterBooks(book, 'currentlyReading'),
+        booksWantToRead : this.filterBooks(book, 'wantToRead'),
+        booksRead : this.filterBooks(book, 'read') 
+      })
     })
+    
   }
 
   render(){
-      const bookShelfs = ['Currently Reading', 'Want to Read', 'Read']
+      const bookShelfs = [{'shelf' : 'currentlyReading','name':'Currently Reading', 'listBooks': this.state.booksCurrentlyReading}, 
+                          {'shelf' : 'wantToRead','name':'Want to Read', 'listBooks':this.state.booksWantToRead}, 
+                          {'shelf' : 'read','name':'Read', 'listBooks':this.state.booksRead}]
       return(
         <div className="list-books">
           <div className="list-books-title">
             <h1>MyReads</h1>
           </div>
           <div className="list-books-content">
-            {bookShelfs.map((bookShelf, key) => (
-              <BookShelf key={key} bookshelf={bookShelf} books={this.state.books} />
+            {bookShelfs.map((bookShelf) => (
+              <BookShelf key={bookShelf.shelf} name={bookShelf.name} books={bookShelf.listBooks} onUpdateShelf={(book, shelf)=>{this.updateShelf(book,shelf)}} />
             ))}
           </div>
           <div className="open-search">

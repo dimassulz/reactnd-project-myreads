@@ -1,20 +1,37 @@
 import React, { Component } from 'react'
+import Book from './Book'
 import { Link } from 'react-router-dom'
-import PropTypes from 'prop-types'
-import escapeRegExp from 'escape-string-regexp'
+
+//import escapeRegExp from 'escape-string-regexp'
+import * as BooksAPI from './utils/api/BooksAPI'
 // import sortBy from 'sort-by'
 
 class SearchBooks extends Component{
-    static propType = {
-        books: PropTypes.array.isRequired
-    }
 
     state = {
-        query: ''
+        query: '',
+        books: []
     }
+
+    updateShelf = (book, shelf) => {
+        BooksAPI.update(book, shelf).then((result) => {
+          //this.componentDidMount()
+        })
+      }
     
     updateQuery = (query) => {
-        this.setState({ query: query });
+         this.setState({query: query.trim()}, () => this.queryApi(query) );
+    }
+
+    queryApi = (query) => {
+        BooksAPI.search(query).then((response) => {
+            const emptyResponse = !!response.error
+            const books = emptyResponse ? [] : response
+            this.setState({books: books})
+        }).catch((error) => {
+            this.setState({books: []});
+            console.log("Ocorreu um erro ao consultar! ("+error+")")
+        })
     }
 
     clearQuery = () => {
@@ -22,17 +39,13 @@ class SearchBooks extends Component{
     }
     
     render(){
-        let showingBooks
-        const books = this.props.books
-
-        const {query} = this.state
-
-        if (query) {
-            const match = new RegExp(escapeRegExp(query), 'i');
-            showingBooks = books.filter((book) =>  match.test(book.title) || book.authors.some((author)=>match.test(author)) )
-        } else {
-            showingBooks = []
-        }
+        const {query, books} = this.state
+      //  if (query) {
+      //      const match = new RegExp(escapeRegExp(query), 'i');
+      //      showingBooks = books.filter((book) =>  match.test(book.title) || book.authors.some((author)=>match.test(author)) )
+      //  } else {
+      //      showingBooks = []
+      //  }
 
         return(
         <div className="search-books">
@@ -57,24 +70,10 @@ class SearchBooks extends Component{
             </div>
             <div className="search-books-results">
                 <ol className="books-grid">
-                    {showingBooks.map((book) =>(
+                    {console.log(books)}
+                    {books.map((book) =>(
                         <li key={book.id}>
-                            <div className="book">
-                            <div className="book-top">
-                                <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>
-                                <div className="book-shelf-changer">
-                                <select>
-                                    <option value="none" disabled>Move to...</option>
-                                    <option value="currentlyReading">Currently Reading</option>
-                                    <option value="wantToRead">Want to Read</option>
-                                    <option value="read">Read</option>
-                                    <option value="none">None</option>
-                                </select>
-                                </div>
-                            </div>
-                            <div className="book-title">{book.title}</div>
-                            {book.authors.map((author,key) => ( <div className="book-authors" key={key}> {author} </div> ))}
-                            </div>
+                           <Book book={book} onUpdateShelf={(book, shelf) => this.updateShelf(book,shelf)} />
                         </li>
                     ))}
                 </ol>

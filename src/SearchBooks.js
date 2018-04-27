@@ -15,7 +15,9 @@ class SearchBooks extends Component{
 
     updateShelf = (book, shelf) => {
         BooksAPI.update(book, shelf).then((result) => {
-          //this.componentDidMount()
+            if(shelf !== 'none'){
+                alert('The book '+book.title+' has been added to shelf '+shelf)
+            }
         })
       }
     
@@ -52,7 +54,7 @@ class SearchBooks extends Component{
             </div>
             <div className="search-books-results">
                 <ol className="books-grid">
-                    {console.log(books)}
+                    
                     {books.map((book) =>(
                         <li key={book.id}>
                            <Book book={book} onUpdateShelf={(book, shelf) => this.updateShelf(book,shelf)} />

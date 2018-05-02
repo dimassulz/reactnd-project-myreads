@@ -5,6 +5,7 @@ import * as BooksAPI from './utils/api/BooksAPI'
 
 class ListBooks extends Component {
   state = {
+    loading:true,
     booksCurrentlyReading:[],
     booksWantToRead:[],
     booksRead:[]
@@ -15,6 +16,7 @@ class ListBooks extends Component {
   }
 
   updateShelf = (book, shelf) => {
+    this.setState({ loading:true })
     BooksAPI.update(book, shelf).then((result) => {
       this.componentDidMount()
     })
@@ -25,7 +27,8 @@ class ListBooks extends Component {
       this.setState({ 
         booksCurrentlyReading : this.filterBooks(book, 'currentlyReading'),
         booksWantToRead : this.filterBooks(book, 'wantToRead'),
-        booksRead : this.filterBooks(book, 'read') 
+        booksRead : this.filterBooks(book, 'read'),
+        loading:false
       })
     })
     
@@ -42,7 +45,7 @@ class ListBooks extends Component {
           </div>
           <div className="list-books-content">
             {bookShelfs.map((bookShelf) => (
-              <BookShelf key={bookShelf.shelf} name={bookShelf.name} books={bookShelf.listBooks} onUpdateShelf={(book, shelf)=>{this.updateShelf(book,shelf)}} />
+              <BookShelf key={bookShelf.shelf} name={bookShelf.name} loading={this.state.loading} books={bookShelf.listBooks} onUpdateShelf={(book, shelf)=>{this.updateShelf(book,shelf)}} />
             ))}
           </div>
           <div className="open-search">

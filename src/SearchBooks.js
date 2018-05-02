@@ -1,38 +1,63 @@
 import React, { Component } from 'react'
 import Book from './Book'
 import { Link } from 'react-router-dom'
-
-//import escapeRegExp from 'escape-string-regexp'
 import * as BooksAPI from './utils/api/BooksAPI'
-// import sortBy from 'sort-by'
+import './utils/css/loader.css'
 
 class SearchBooks extends Component{
 
     state = {
         query: '',
-        books: []
+        booksInTheShelf: [],
+        books: [],
+        loading:false
+    }
+
+    componentDidMount(){
+        BooksAPI.getAll().then((resultBooks) => {
+          this.setState({ 
+            booksInTheShelf : resultBooks
+          })
+        })
     }
 
     updateShelf = (book, shelf) => {
+        this.setState({loading:true})
         BooksAPI.update(book, shelf).then((result) => {
+            this.state.books.forEach(bookState => {
+                if(bookState.id === book.id){
+                    bookState.shelf = shelf
+                }
+            })
+            this.setState({books: this.state.books,loading:false})
             if(shelf !== 'none'){
                 alert('The book '+book.title+' has been added to shelf '+shelf)
+            }else{
+                alert('The book '+book.title+' has been removed from the shelf')
             }
         })
-      }
+    }
     
     updateQuery = (query) => {
-         this.setState({query: query.trim()}, () => this.queryApi(query) );
+        this.setState({query: query.trim()}, () => this.queryApi(query) );
+    }
+
+    setBookShelf = (books) => {
+        books.forEach(item => {
+            const myBook = this.state.booksInTheShelf.find(elem => elem.id === item.id)
+            item.shelf = myBook ? myBook.shelf  : 'none'
+        })
+        return books
     }
 
     queryApi = (query) => {
         BooksAPI.search(query).then((response) => {
             const emptyResponse = !!response.error
-            const books = emptyResponse || response === undefined  ? [] : response
+            const result = emptyResponse || response === undefined  ? [] : response
+            const books = this.setBookShelf(result);
             this.setState({books: books})
         }).catch((error) => {
             this.setState({ books: []})
-           // console.log("Ocorreu um erro ao consultar! ("+error+")")
         })
     }
     
@@ -53,6 +78,7 @@ class SearchBooks extends Component{
               </div>
             </div>
             <div className="search-books-results">
+                {this.state.loading === true ? (<div className="loader"></div>) : (
                 <ol className="books-grid">
                     
                     {books.map((book) =>(
@@ -61,6 +87,7 @@ class SearchBooks extends Component{
                         </li>
                     ))}
                 </ol>
+                )}
             </div>
         </div>
         )

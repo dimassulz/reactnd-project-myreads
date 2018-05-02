@@ -23,7 +23,7 @@ class Book extends Component {
                     </select>
                 </div>
             </div>
-            <div className="book-title">{book.title}</div>
+            <div className="book-title"><a href={book.previewLink} target="_blank">{book.title}</a></div>
             {book.authors.map((author,key) => ( <div className="book-authors" key={key}> {author} </div> ))}
         </div>
       )

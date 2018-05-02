@@ -1,92 +1,101 @@
-# MyReads Project
+![Logo of the project](./public/favicon.png)
 
-This is the starter template for the final assessment project for Udacity's React Fundamentals course. The goal of this template is to save you time by providing a static example of the CSS and HTML markup that may be used, but without any of the React code that is needed to complete the project. If you choose to start with this template, your job will be to add interactivity to the app by refactoring the static code in this template.
+# MyReads Project &middot; [![Build Status](https://img.shields.io/travis/npm/npm/latest.svg?style=flat-square)](https://travis-ci.org/npm/npm) [![npm](https://img.shields.io/npm/v/npm.svg?style=flat-square)](https://www.npmjs.com/package/npm) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://github.com/your/your-project/blob/master/LICENSE)
+> Additional information or tag line
 
-Of course, you are free to start this project from scratch if you wish! Just be sure to use [Create React App](https://github.com/facebookincubator/create-react-app) to bootstrap the project.
+A brief description of your project, what it is used for.
 
-## TL;DR
+## Installing / Getting started
 
-To get started developing right away:
+A quick introduction of the minimal setup you need to get a hello world up &
+running.
 
-* install all project dependencies with `npm install`
-* start the development server with `npm start`
-
-## What You're Getting
-```bash
-├── CONTRIBUTING.md
-├── README.md - This file.
-├── SEARCH_TERMS.md # The whitelisted short collection of available search terms for you to use with your app.
-├── package.json # npm package manager file. It's unlikely that you'll need to modify this.
-├── public
-│   ├── favicon.ico # React Icon, You may change if you wish.
-│   └── index.html # DO NOT MODIFY
-└── src
-    ├── App.css # Styles for your app. Feel free to customize this as you desire.
-    ├── App.js # This is the root of your app. Contains static HTML right now.
-    ├── App.test.js # Used for testing. Provided with Create React App. Testing is encouraged, but not required.
-    ├── BooksAPI.js # A JavaScript API for the provided Udacity backend. Instructions for the methods are below.
-    ├── icons # Helpful images for your app. Use at your discretion.
-    │   ├── add.svg
-    │   ├── arrow-back.svg
-    │   └── arrow-drop-down.svg
-    ├── index.css # Global styles. You probably won't need to change anything here.
-    └── index.js # You should not need to modify this file. It is used for DOM rendering only.
+```shell
+commands here
 ```
 
-Remember that good React design practice is to create new JS files for each component and use import/require statements to include them where they are needed.
+Here you should say what actually happens when you execute the code above.
 
-## Backend Server
+## Developing
 
-To simplify your development process, we've provided a backend server for you to develop against. The provided file [`BooksAPI.js`](src/BooksAPI.js) contains the methods you will need to perform necessary operations on the backend:
+### Built With
+List main libraries, frameworks used including versions (React, Angular etc...)
 
-* [`getAll`](#getall)
-* [`update`](#update)
-* [`search`](#search)
+### Prerequisites
+What is needed to set up the dev environment. For instance, global dependencies or any other tools. include download links.
 
-### `getAll`
 
-Method Signature:
+### Setting up Dev
 
-```js
-getAll()
+Here's a brief intro about what a developer must do in order to start developing
+the project further:
+
+```shell
+git clone https://github.com/your/your-project.git
+cd your-project/
+packagemanager install
 ```
 
-* Returns a Promise which resolves to a JSON object containing a collection of book objects.
-* This collection represents the books currently in the bookshelves in your app.
+And state what happens step-by-step. If there is any virtual environment, local server or database feeder needed, explain here.
 
-### `update`
+### Building
 
-Method Signature:
+If your project needs some additional steps for the developer to build the
+project after some code changes, state them here. for example:
 
-```js
-update(book, shelf)
+```shell
+./configure
+make
+make install
 ```
 
-* book: `<Object>` containing at minimum an `id` attribute
-* shelf: `<String>` contains one of ["wantToRead", "currentlyReading", "read"]  
-* Returns a Promise which resolves to a JSON object containing the response data of the POST request
+Here again you should state what actually happens when the code above gets
+executed.
 
-### `search`
+### Deploying / Publishing
+give instructions on how to build and release a new version
+In case there's some step you have to take that publishes this project to a
+server, this is the right time to state it.
 
-Method Signature:
-
-```js
-search(query)
+```shell
+packagemanager deploy your-project -s server.com -u username -p password
 ```
 
-* query: `<String>`
-* Returns a Promise which resolves to a JSON object containing a collection of a maximum of 20 book objects.
-* These books do not know which shelf they are on. They are raw results only. You'll need to make sure that books have the correct state while on the search page.
+And again you'd need to tell what the previous code actually does.
 
-## Important
-The backend API uses a fixed set of cached search results and is limited to a particular set of search terms, which can be found in [SEARCH_TERMS.md](SEARCH_TERMS.md). That list of terms are the _only_ terms that will work with the backend, so don't be surprised if your searches for Basket Weaving or Bubble Wrap don't come back with any results.
+## Versioning
 
-## Create React App
+We can maybe use [SemVer](http://semver.org/) for versioning. For the versions available, see the [link to tags on this repository](/tags).
 
-This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app). You can find more information on how to perform common tasks [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
 
-## Contributing
+## Configuration
 
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
+Here you should write what are all of the configurations a user can enter when
+using the project.
 
-For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
+## Tests
+
+Describe and show how to run the tests with code examples.
+Explain what these tests test and why.
+
+```shell
+Give an example
+```
+
+## Style guide
+
+Explain your code style and show how to check it.
+
+## Api Reference
+
+If the api is external, link to api documentation. If not describe your api including authentication methods as well as explaining all the endpoints with their required parameters.
+
+
+## Database
+
+Explaining what database (and version) has been used. Provide download links.
+Documents your database design and schemas, relations etc... 
+
+## Licensing
+
+State what the license is and how to find the text version of the license.
